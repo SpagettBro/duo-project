@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Platformer_Starter_shadow.sln"
+    "dotnet.defaultSolution": "duo-project.sln"
 }
