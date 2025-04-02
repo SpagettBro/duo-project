@@ -3,19 +3,21 @@ using UnityEngine.Rendering.Universal;
 
 public class LanternLight : MonoBehaviour
 {
-    public Light2D lanternLight; // The spotlight component of the lantern
+    public Light2D lanternLight; // The Light2D component
     public float lightRange = 5.2f; // How far the light reaches
     public float damagePerSecond = 10f; // Damage applied per second
+    public float coneAngle = 60f; // The angle of the cone
     public LayerMask alienLayer; // Define the layer for aliens
-    public bool isRaysActive = false; // Toggle for rays or circle
-    public int numberOfRays = 5; // Number of rays to emit
-    public float rayWidth = 0.1f; // Width of each light ray
 
-    private LineRenderer[] lightRays; // Array of LineRenderers for rays
+    private Transform player;  // Reference to the player
+    private float playerFacingDirection;  // Player's facing direction (1 for right, -1 for left)
 
     void Start()
     {
-        // Find the Light2D component inside the Lantern object if not assigned
+        // Find the player object
+        player = GameObject.FindGameObjectWithTag("Player").transform; 
+
+        // If the light hasn't been assigned in the Inspector, try to find it automatically
         if (lanternLight == null)
         {
             lanternLight = GetComponentInChildren<Light2D>();
@@ -23,88 +25,69 @@ public class LanternLight : MonoBehaviour
 
         if (lanternLight == null)
         {
-            Debug.LogError("LanternLight script couldn't find a Light component! Assign it manually in the Inspector.");
-        }
-
-        // Initialize rays if not already created
-        lightRays = new LineRenderer[numberOfRays];
-        for (int i = 0; i < numberOfRays; i++)
-        {
-            lightRays[i] = new GameObject("Ray_" + i).AddComponent<LineRenderer>();
-            lightRays[i].transform.parent = transform;
-            lightRays[i].startWidth = rayWidth;
-            lightRays[i].endWidth = rayWidth;
-            lightRays[i].startColor = Color.yellow;
-            lightRays[i].endColor = Color.yellow;
-            lightRays[i].enabled = false;  // Initially disable the rays
+            Debug.LogError("LanternLight script couldn't find a Light2D component! Assign it manually in the Inspector.");
         }
     }
 
     void Update()
     {
-        // Only damage when the light is on
         if (lanternLight != null && lanternLight.enabled)
         {
-            DamageAliensInLight();
-            if (isRaysActive)
-            {
-                UpdateRays();
-            }
-        }
+            // Get the player's facing direction from PlayerController
+            playerFacingDirection = GetPlayerFacingDirection();
 
-        // Toggle between rays and circle light (you can link this with a button or input)
-        if (Input.GetKeyDown(KeyCode.T)) // Change T to whatever key you want
-        {
-            ToggleLightMode();
+            // Update damage area based on the direction the player is facing
+            DamageAliensInCone();
         }
     }
 
-    void DamageAliensInLight()
+    void DamageAliensInCone()
     {
-        // Check for aliens within the range of the light
-        Collider2D[] hitAliens = Physics2D.OverlapCircleAll(transform.position, lightRange, alienLayer);
+        Vector2 origin = transform.position;
+        Vector2 direction = transform.right.normalized; // Default direction (forward of lantern)
+
+        // If player is facing left, invert the direction of the cone
+        if (playerFacingDirection < 0)
+        {
+            direction = -transform.right.normalized; // Flip the direction to the left
+        }
+
+        // Use OverlapArea to check for aliens in the cone's range
+        Collider2D[] hitAliens = Physics2D.OverlapAreaAll(origin, origin + direction * lightRange, alienLayer);
 
         foreach (Collider2D alien in hitAliens)
         {
-            AlienHealth alienHealth = alien.GetComponent<AlienHealth>();
-            if (alienHealth != null)
+            Vector2 toAlien = (alien.transform.position - (Vector3)origin).normalized;
+            float angleToAlien = Vector2.Angle(direction, toAlien);
+
+            // Check if alien is inside the cone angle
+            if (angleToAlien <= coneAngle / 2)
             {
-                alienHealth.TakeDamage(damagePerSecond * Time.deltaTime); // Apply damage over time
+                AlienHealth alienHealth = alien.GetComponent<AlienHealth>();
+                if (alienHealth != null)
+                {
+                    alienHealth.TakeDamage(damagePerSecond * Time.deltaTime);
+                    Debug.Log($"Alien {alien.name} is taking damage!");
+                }
             }
         }
     }
 
-    void UpdateRays()
+    // Function to check the player's facing direction (from PlayerController)
+    float GetPlayerFacingDirection()
     {
-        // Calculate the angle between rays and update their positions
-        float angleStep = 360f / numberOfRays;  // Angle between each ray
-        for (int i = 0; i < numberOfRays; i++)
-        {
-            float angle = i * angleStep;
-            Vector3 direction = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad), 0f);
-
-            lightRays[i].SetPosition(0, transform.position);  // Start point (center of lantern)
-            lightRays[i].SetPosition(1, transform.position + direction * lightRange);  // End point (ray length)
-        }
-    }
-
-    void ToggleLightMode()
-    {
-        // Toggle between rays and circle light
-        isRaysActive = !isRaysActive;
-        lanternLight.enabled = !isRaysActive;  // Disable lantern circle if rays are active
-
-        // Enable or disable rays based on the toggle state
-        for (int i = 0; i < numberOfRays; i++)
-        {
-            lightRays[i].enabled = isRaysActive;
-        }
+        // Assuming PlayerController flips the player's sprite using localScale.x
+        return Mathf.Sign(player.localScale.x); // Return 1 for right, -1 for left
     }
 
     void OnDrawGizmos()
     {
-        // Visualize the range of the lantern light
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, lightRange);
+        Vector3 leftLimit = Quaternion.Euler(0, 0, -coneAngle / 2) * transform.right * lightRange;
+        Vector3 rightLimit = Quaternion.Euler(0, 0, coneAngle / 2) * transform.right * lightRange;
+
+        // Draw the cone in the Scene view for debugging
+        Gizmos.DrawLine(transform.position, transform.position + leftLimit);
+        Gizmos.DrawLine(transform.position, transform.position + rightLimit);
     }
 }
