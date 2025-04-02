@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Alien
+  - Audio
   layers:
   - Default
   - TransparentFX
