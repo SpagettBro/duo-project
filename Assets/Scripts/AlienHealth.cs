@@ -2,33 +2,61 @@ using UnityEngine;
 
 public class AlienHealth : MonoBehaviour
 {
-    public float maxHealth = 50f;  // Maximum health for the alien
-    private float currentHealth;   // Current health of the alien
+    public float maxHealth = 50f;
+    private float currentHealth;
+
+    [Header("Damage Effects")]
+    public ParticleSystem damageParticles; // Reference to the particle system
+
+    private AudioManager audioManager; // Reference to the AudioManager
 
     void Start()
     {
-        currentHealth = maxHealth;  // Set starting health to max
+        currentHealth = maxHealth;
+
+        // Get AudioManager from the scene
+        GameObject audioObject = GameObject.FindGameObjectWithTag("Audio");
+        if (audioObject != null)
+        {
+            audioManager = audioObject.GetComponent<AudioManager>();
+        }
+        else
+        {
+            Debug.LogWarning("AudioManager not found in scene! Make sure the Audio GameObject is tagged as 'Audio'.");
+        }
     }
 
     public void TakeDamage(float amount)
     {
-        currentHealth -= amount;  // Decrease health by damage amount
+        currentHealth -= amount;
 
-        // Log when alien takes damage
+        // Play the damage particle effect if assigned
+        if (damageParticles != null)
+        {
+            damageParticles.Play();
+        }
+        else
+        {
+            Debug.LogWarning("No damageParticles assigned on " + gameObject.name);
+        }
+
+        // Play damage sound effect if assigned
+        if (audioManager != null && audioManager.alien_damaged != null)
+        {
+            audioManager.PlaySFX(audioManager.alien_damaged);
+        }
+
         Debug.Log(gameObject.name + " took " + amount + " damage. Current health: " + currentHealth);
 
         if (currentHealth <= 0)
         {
-            Die();  // If health reaches 0, call Die()
+            Die();
         }
     }
 
     void Die()
     {
-        // Log when alien dies
         Debug.Log(gameObject.name + " has been defeated!");
-
-        // Destroy alien game object
         Destroy(gameObject);
     }
 }

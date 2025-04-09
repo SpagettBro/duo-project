@@ -10,7 +10,7 @@ public class AudioManager : MonoBehaviour
     [Header("----------Audio Clip----------")]
     public AudioClip background;
     public AudioClip wakeup;
-    internal AudioClip alien_wakup;
+    public AudioClip alien_damaged;
 
     private void Start()
     {
@@ -20,11 +20,13 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySFX(AudioClip clip)
     {
-        SFXSource.PlayOneShot(clip);
-    }
-
-    internal void PlaySFX(object alien_wakup)
-    {
-        throw new NotImplementedException();
+        if (clip != null)
+        {
+            SFXSource.PlayOneShot(clip);
+        }
+        else
+        {
+            Debug.LogWarning("Tried to play a null SFX clip.");
+        }
     }
 }
