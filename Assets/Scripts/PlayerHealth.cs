@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.UI; // Needed for Slider
 using System.Collections;
 
 public class PlayerHealth : MonoBehaviour
@@ -18,6 +18,9 @@ public class PlayerHealth : MonoBehaviour
 
     private Color originalColor;
 
+    // Reference to the HP Slider
+    public Slider healthSlider;
+
     void Start()
     {
         currentHealth = maxHealth;
@@ -35,6 +38,13 @@ public class PlayerHealth : MonoBehaviour
         {
             Debug.LogWarning("PlayerHealth: No SpriteRenderer assigned or found!");
         }
+
+        // Set the slider's value to the player's max health at the start
+        if (healthSlider != null)
+        {
+            healthSlider.maxValue = maxHealth;
+            healthSlider.value = currentHealth;
+        }
     }
 
     public void TakeDamage(float amount)
@@ -43,6 +53,12 @@ public class PlayerHealth : MonoBehaviour
 
         currentHealth -= amount;
         Debug.Log(gameObject.name + " took " + amount + " damage. Current health: " + currentHealth);
+
+        // Update the health slider when player takes damage
+        if (healthSlider != null)
+        {
+            healthSlider.value = currentHealth; // Set the slider value to the current health
+        }
 
         StartCoroutine(FlashEffect());
         StartCoroutine(DamageCooldown());
@@ -73,12 +89,12 @@ public class PlayerHealth : MonoBehaviour
     void Die()
     {
         Debug.Log(gameObject.name + " has been defeated!");
-
-    #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-    #else
+        // Quit the game when the player dies
         Application.Quit();
-    #endif
-    }
 
+        // For the editor, you can simulate quitting by stopping the play mode
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #endif
+    }
 }
