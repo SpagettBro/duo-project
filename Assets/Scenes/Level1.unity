@@ -3139,6 +3139,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2001713737489770702, guid: 8f50b624b8c6f4543a0961f5b8622802, type: 3}
+      propertyPath: m_FalloffIntensity
+      value: 0.473
+      objectReference: {fileID: 0}
+    - target: {fileID: 2001713737489770702, guid: 8f50b624b8c6f4543a0961f5b8622802, type: 3}
+      propertyPath: m_PointLightInnerAngle
+      value: 20.79
+      objectReference: {fileID: 0}
+    - target: {fileID: 2001713737489770702, guid: 8f50b624b8c6f4543a0961f5b8622802, type: 3}
+      propertyPath: m_PointLightOuterAngle
+      value: 252.1502
+      objectReference: {fileID: 0}
     - target: {fileID: 6003051265952074532, guid: 8f50b624b8c6f4543a0961f5b8622802, type: 3}
       propertyPath: walkSpeed
       value: 200
@@ -3215,7 +3227,7 @@ BoxCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 4, y: 4}
-    newSize: {x: 40, y: 40}
+    newSize: {x: 4, y: 4}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0

@@ -69,6 +69,20 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+
+    public void Heal(float amount)
+    {
+        currentHealth = Mathf.Min(currentHealth + amount, maxHealth); // Clamp to maxHealth
+        Debug.Log(gameObject.name + " healed by " + amount + ". Current health: " + currentHealth);
+
+        if (healthSlider != null)
+        {
+            healthSlider.value = currentHealth;
+        }
+    }
+
+
+
     IEnumerator FlashEffect()
     {
         if (spriteRenderer != null)
