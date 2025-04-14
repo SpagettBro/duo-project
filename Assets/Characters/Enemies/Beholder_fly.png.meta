@@ -110,23 +110,111 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BatkaPux_0
+      name: Beholder_fly_0
       rect:
         serializedVersion: 2
-        x: 115
-        y: 49
-        width: 717
-        height: 865
+        x: 3
+        y: 3
+        width: 23
+        height: 26
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: ec6a59dc46354ec20800000000000000
-      internalID: 3234802124769830606
+      spriteID: b0f082fd0ac5ba7408ebeb8ee69a5827
+      internalID: 628735081
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Beholder_fly_1
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 4
+        width: 32
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 187bf0331dde3734ebd34227a605e3d5
+      internalID: -1835343872
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Beholder_fly_2
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 4
+        width: 32
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 99f5f6dd9f8984f428bc948776d379ae
+      internalID: 1607702737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Beholder_fly_3
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 5
+        width: 39
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 852a716f7e19963459c1b4c12fac890a
+      internalID: 1821199548
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Beholder_fly_4
+      rect:
+        serializedVersion: 2
+        x: 257
+        y: 4
+        width: 28
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f28cea30714940043892c09124c8000e
+      internalID: 2128113017
       vertices: []
       indices: 
       edges: []
@@ -135,7 +223,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: ade9908d37bac1b4c9b095af662bc195
     internalID: 0
     vertices: []
     indices: 
@@ -145,7 +233,11 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      BatkaPux_0: 3234802124769830606
+      Beholder_fly_0: 628735081
+      Beholder_fly_1: -1835343872
+      Beholder_fly_2: 1607702737
+      Beholder_fly_3: 1821199548
+      Beholder_fly_4: 2128113017
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

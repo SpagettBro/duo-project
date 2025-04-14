@@ -110,23 +110,111 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BatkaPux_0
+      name: Beholder_attack_0
       rect:
         serializedVersion: 2
-        x: 115
-        y: 49
-        width: 717
-        height: 865
+        x: 1
+        y: 2
+        width: 27
+        height: 30
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: ec6a59dc46354ec20800000000000000
-      internalID: 3234802124769830606
+      spriteID: d109c277baaf1eb46bcd3b97126f79ea
+      internalID: -1337378611
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Beholder_attack_1
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 1
+        width: 28
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a01cadeef2104db4685c4d251104e1a9
+      internalID: 290423058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Beholder_attack_2
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 1
+        width: 35
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 502aba0e435c474478ad5c6d3fb2da63
+      internalID: -1816884211
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Beholder_attack_3
+      rect:
+        serializedVersion: 2
+        x: 214
+        y: 3
+        width: 33
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2455500031fd0ad46a0b1ae7cf6d47ff
+      internalID: -492204533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Beholder_attack_4
+      rect:
+        serializedVersion: 2
+        x: 261
+        y: 3
+        width: 35
+        height: 22
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f607957f5eccd145ad095b717f2a63b
+      internalID: 1693575767
       vertices: []
       indices: 
       edges: []
@@ -135,7 +223,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 77d9b0deef552b84da3e44d6bdcf7e14
     internalID: 0
     vertices: []
     indices: 
@@ -145,7 +233,11 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      BatkaPux_0: 3234802124769830606
+      Beholder_attack_0: -1337378611
+      Beholder_attack_1: 290423058
+      Beholder_attack_2: -1816884211
+      Beholder_attack_3: -492204533
+      Beholder_attack_4: 1693575767
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

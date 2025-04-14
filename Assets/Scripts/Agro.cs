@@ -3,6 +3,7 @@ using UnityEngine;
 public class Agro : MonoBehaviour
 {
     AudioManager audioManager;
+
     private bool hasChased = false; // Flag to track if the alien has started chasing
 
     private void Awake()

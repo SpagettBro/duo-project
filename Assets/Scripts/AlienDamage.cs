@@ -6,21 +6,36 @@ public class AlienDamage : MonoBehaviour
     public float damageInterval = 1f; // Time between each damage tick
 
     private bool canDamage = true;
+    private Animator anim;
 
-    void OnTriggerStay2D(Collider2D other)
+    private void Awake()
+    {
+        anim = GetComponent<Animator>();
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
     {
         if (other.CompareTag("Player") && canDamage)
         {
             PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
             if (playerHealth != null)
             {
+                // Damage the player
                 playerHealth.TakeDamage(damageAmount);
+
+                // Trigger attack animation ONLY when damaging
+                if (anim != null)
+                {
+                    anim.SetTrigger("maleAttack");
+                }
+
+                // Start cooldown
                 StartCoroutine(DamageCooldown());
             }
         }
     }
 
-    System.Collections.IEnumerator DamageCooldown()
+    private System.Collections.IEnumerator DamageCooldown()
     {
         canDamage = false;
         yield return new WaitForSeconds(damageInterval);
