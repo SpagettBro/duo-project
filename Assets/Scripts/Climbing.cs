@@ -25,8 +25,7 @@ public class Climbing : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Reached climbable object.");
-        Console.WriteLine("Reached climbable object.");
+        //Debug.Log("Reached climbable object.");
         if (other.CompareTag("Climbable"))
         {
             isClimbing = true;
@@ -36,7 +35,7 @@ public class Climbing : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D other)
     {
-        Debug.Log("Left climbable object.");
+        //Debug.Log("Left climbable object.");
         if (other.CompareTag("Climbable"))
         {
             isClimbing = false;
