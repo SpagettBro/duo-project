@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.UI; // Needed for Slider
+using UnityEngine.UI;
 using System.Collections;
 
 public class PlayerHealth : MonoBehaviour
@@ -8,18 +8,23 @@ public class PlayerHealth : MonoBehaviour
     private float currentHealth;
 
     [Header("Flash Settings")]
-    public SpriteRenderer spriteRenderer; // Assign in Inspector
+    public SpriteRenderer spriteRenderer;
     public Color flashColor = Color.red;
     public float flashDuration = 0.2f;
 
     [Header("Invincibility Settings")]
-    public float damageCooldown = 1f; // 1 second of invincibility after taking damage
+    public float damageCooldown = 1f;
     private bool isInvincible = false;
 
     private Color originalColor;
 
-    // Reference to the HP Slider
+    [Header("UI & Screen Shake")]
     public Slider healthSlider;
+    public float shakeDuration = 0.2f;
+    public float shakeMagnitude = 0.2f;
+
+    // This should be the ShakeContainer, not the actual camera
+    public Transform shakeTarget;
 
     void Start()
     {
@@ -34,16 +39,25 @@ public class PlayerHealth : MonoBehaviour
         {
             originalColor = spriteRenderer.color;
         }
-        else
-        {
-            Debug.LogWarning("PlayerHealth: No SpriteRenderer assigned or found!");
-        }
 
-        // Set the slider's value to the player's max health at the start
         if (healthSlider != null)
         {
             healthSlider.maxValue = maxHealth;
             healthSlider.value = currentHealth;
+        }
+
+        if (shakeTarget == null)
+        {
+            // Try to find "ShakeContainer" by name
+            GameObject shakeObj = GameObject.Find("ShakeContainer");
+            if (shakeObj != null)
+            {
+                shakeTarget = shakeObj.transform;
+            }
+            else
+            {
+                Debug.LogWarning("ShakeContainer not found! Assign 'shakeTarget' in Inspector.");
+            }
         }
     }
 
@@ -54,10 +68,14 @@ public class PlayerHealth : MonoBehaviour
         currentHealth -= amount;
         Debug.Log(gameObject.name + " took " + amount + " damage. Current health: " + currentHealth);
 
-        // Update the health slider when player takes damage
         if (healthSlider != null)
         {
-            healthSlider.value = currentHealth; // Set the slider value to the current health
+            healthSlider.value = currentHealth;
+        }
+
+        if (shakeTarget != null)
+        {
+            StartCoroutine(ScreenShake());
         }
 
         StartCoroutine(FlashEffect());
@@ -69,19 +87,17 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-
     public void Heal(float amount)
     {
-        currentHealth = Mathf.Min(currentHealth + amount, maxHealth); // Clamp to maxHealth
-        Debug.Log(gameObject.name + " healed by " + amount + ". Current health: " + currentHealth);
+        currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
 
         if (healthSlider != null)
         {
             healthSlider.value = currentHealth;
         }
+
+        Debug.Log(gameObject.name + " healed by " + amount + ". Current health: " + currentHealth);
     }
-
-
 
     IEnumerator FlashEffect()
     {
@@ -100,15 +116,29 @@ public class PlayerHealth : MonoBehaviour
         isInvincible = false;
     }
 
+    IEnumerator ScreenShake()
+    {
+        Vector3 originalPos = shakeTarget.localPosition;
+        float elapsed = 0f;
+
+        while (elapsed < shakeDuration)
+        {
+            Vector2 randomPoint = Random.insideUnitCircle * shakeMagnitude;
+            shakeTarget.localPosition = new Vector3(randomPoint.x, randomPoint.y, originalPos.z);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        shakeTarget.localPosition = originalPos;
+    }
+
     void Die()
     {
         Debug.Log(gameObject.name + " has been defeated!");
-        // Quit the game when the player dies
         Application.Quit();
 
-        // For the editor, you can simulate quitting by stopping the play mode
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
-        #endif
+#endif
     }
 }

@@ -160,6 +160,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageAmount: 2
   damageInterval: 1
+  dashDistance: 0.5
+  dashDuration: 0.3
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,12 +293,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.03, y: 0.0146000385, z: -10.848032}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1711536802}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &519420033
 MonoBehaviour:
@@ -1034,11 +1036,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2669173589145368893, guid: b316b98167fe0f145a31fa0f1bb90439, type: 3}
       propertyPath: m_Size.x
-      value: 1
+      value: 0.49
       objectReference: {fileID: 0}
     - target: {fileID: 2669173589145368893, guid: b316b98167fe0f145a31fa0f1bb90439, type: 3}
       propertyPath: m_Size.y
-      value: 1
+      value: 0.52
+      objectReference: {fileID: 0}
+    - target: {fileID: 2669173589145368893, guid: b316b98167fe0f145a31fa0f1bb90439, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2669173589145368893, guid: b316b98167fe0f145a31fa0f1bb90439, type: 3}
       propertyPath: m_IsTrigger
@@ -1118,15 +1124,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3818821266271564995, guid: b316b98167fe0f145a31fa0f1bb90439, type: 3}
       propertyPath: m_Color.b
-      value: 0.6301887
+      value: 0.39099124
       objectReference: {fileID: 0}
     - target: {fileID: 3818821266271564995, guid: b316b98167fe0f145a31fa0f1bb90439, type: 3}
       propertyPath: m_Color.g
-      value: 0.6301887
+      value: 0.4113207
       objectReference: {fileID: 0}
     - target: {fileID: 3818821266271564995, guid: b316b98167fe0f145a31fa0f1bb90439, type: 3}
       propertyPath: m_Color.r
-      value: 0.6301887
+      value: 0.27240294
       objectReference: {fileID: 0}
     - target: {fileID: 3818821266271564995, guid: b316b98167fe0f145a31fa0f1bb90439, type: 3}
       propertyPath: m_SortingLayer
@@ -1188,6 +1194,38 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 55589392}
   m_SourcePrefab: {fileID: 100100000, guid: b316b98167fe0f145a31fa0f1bb90439, type: 3}
+--- !u!1 &1711536801
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1711536802}
+  m_Layer: 0
+  m_Name: ShakeContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1711536802
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711536801}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.03, y: 0.0146000385, z: -10.848032}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 519420032}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1820859989
 GameObject:
   m_ObjectHideFlags: 0
@@ -6492,6 +6530,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageAmount: 2
   damageInterval: 1
+  dashDistance: 0.2
+  dashDuration: 0.1
 --- !u!61 &1991811358
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6665,6 +6705,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 260893763756649832, guid: 348658b66b6e31345b86e183981845d4, type: 3}
+      propertyPath: shakeTarget
+      value: 
+      objectReference: {fileID: 1711536802}
+    - target: {fileID: 260893763756649832, guid: 348658b66b6e31345b86e183981845d4, type: 3}
       propertyPath: flashColor.b
       value: 0.08442151
       objectReference: {fileID: 0}
@@ -6680,6 +6724,14 @@ PrefabInstance:
       propertyPath: healthSlider
       value: 
       objectReference: {fileID: 1209056759}
+    - target: {fileID: 260893763756649832, guid: 348658b66b6e31345b86e183981845d4, type: 3}
+      propertyPath: shakeDuration
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 260893763756649832, guid: 348658b66b6e31345b86e183981845d4, type: 3}
+      propertyPath: shakeMagnitude
+      value: 0.09
+      objectReference: {fileID: 0}
     - target: {fileID: 2540076206678630132, guid: 348658b66b6e31345b86e183981845d4, type: 3}
       propertyPath: 'm_ApplyToSortingLayers.Array.data[1]'
       value: 1177712959
@@ -7398,7 +7450,7 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 519420032}
+  - {fileID: 1711536802}
   - {fileID: 619394802}
   - {fileID: 3869629201946364822}
   - {fileID: 563377173}

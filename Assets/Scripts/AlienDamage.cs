@@ -3,10 +3,12 @@ using UnityEngine;
 public class AlienDamage : MonoBehaviour
 {
     public float damageAmount = 2f;
-    public float damageInterval = 1f; // Time between each damage tick
+    public float damageInterval = 1f;
 
     private bool canDamage = true;
     private Animator anim;
+    public float dashDistance = 0.2f;
+    public float dashDuration = 0.3f; // Slightly slower dash
 
     private void Awake()
     {
@@ -20,24 +22,50 @@ public class AlienDamage : MonoBehaviour
             PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
             if (playerHealth != null)
             {
-                // Damage the player
-                playerHealth.TakeDamage(damageAmount);
-
-                // Trigger attack animation ONLY when damaging
                 if (anim != null)
                 {
                     anim.SetTrigger("maleAttack");
                 }
 
-                // Start cooldown
-                StartCoroutine(DamageCooldown());
+                StartCoroutine(PerformAttack(playerHealth, other.transform));
             }
         }
     }
 
-    private System.Collections.IEnumerator DamageCooldown()
+    private System.Collections.IEnumerator PerformAttack(PlayerHealth playerHealth, Transform target)
     {
         canDamage = false;
+
+        Vector3 startPosition = transform.position;
+        Vector3 direction = (target.position - transform.position).normalized;
+        Vector3 dashPosition = startPosition + direction * dashDistance;
+
+        float elapsed = 0f;
+
+        // Dash forward
+        while (elapsed < dashDuration)
+        {
+            transform.position = Vector3.Lerp(startPosition, dashPosition, elapsed / dashDuration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        transform.position = dashPosition;
+
+        // 💥 Deal damage at the peak of dash
+        playerHealth.TakeDamage(damageAmount);
+
+        elapsed = 0f;
+
+        // Dash back
+        while (elapsed < dashDuration)
+        {
+            transform.position = Vector3.Lerp(dashPosition, startPosition, elapsed / dashDuration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        transform.position = startPosition;
+
+        // Wait before next allowed damage
         yield return new WaitForSeconds(damageInterval);
         canDamage = true;
     }

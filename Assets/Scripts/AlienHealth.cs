@@ -9,10 +9,16 @@ public class AlienHealth : MonoBehaviour
     public ParticleSystem damageParticles; // Reference to the particle system
 
     private AudioManager audioManager; // Reference to the AudioManager
+    private Animator anim;
+    private Rigidbody2D rb;
+    private bool isDying = false;
 
     void Start()
     {
         currentHealth = maxHealth;
+
+        anim = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
 
         // Get AudioManager from the scene
         GameObject audioObject = GameObject.FindGameObjectWithTag("Audio");
@@ -28,6 +34,8 @@ public class AlienHealth : MonoBehaviour
 
     public void TakeDamage(float amount)
     {
+        if (isDying) return;
+
         currentHealth -= amount;
 
         // Play the damage particle effect if assigned
@@ -55,8 +63,36 @@ public class AlienHealth : MonoBehaviour
     }
 
     void Die()
-    {
-        Debug.Log(gameObject.name + " has been defeated!");
-        Destroy(gameObject);
-    }
+        {
+            isDying = true;
+
+            Debug.Log(gameObject.name + " has been defeated!");
+
+            // Stop movement and physics
+            if (rb != null)
+            {
+                rb.Sleep(); // Stops velocity and physics
+                rb.bodyType = RigidbodyType2D.Kinematic;
+            }
+
+            // Disable damage and movement scripts
+            MonoBehaviour[] scripts = GetComponents<MonoBehaviour>();
+            foreach (var script in scripts)
+            {
+                if (script != this) // Keep AlienHealth alive for animation & destroy timing
+                {
+                    script.enabled = false;
+                }
+            }
+
+            // Trigger death animation
+            if (anim != null)
+            {
+                anim.SetTrigger("Death");
+            }
+
+            // Destroy after delay to let animation finish
+            Destroy(gameObject, 0.5f);
+        }
+
 }
