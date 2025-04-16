@@ -5,11 +5,6 @@ public class AgroDropChase : MonoBehaviour
     AudioManager audioManager;
     private bool hasChased = false; // Flag to track if the alien has started chasing
 
-    private void Awake()
-    {
-        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
-    }
-
     [SerializeField] Transform player;
     [SerializeField] float agroRange = 9f;
     [SerializeField] float moveSpeed = 4f;
@@ -17,6 +12,11 @@ public class AgroDropChase : MonoBehaviour
     [SerializeField] float yThreshold = 0.1f; // Distance before stopping drop
 
     Rigidbody2D rb2d;
+
+    void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
 
     void Start()
     {
@@ -55,7 +55,7 @@ public class AgroDropChase : MonoBehaviour
             }
 
             // If the enemy is too high, drop down first
-            if (yDifference > yThreshold) 
+            if (yDifference > yThreshold)
             {
                 DropDown();
             }
@@ -68,12 +68,24 @@ public class AgroDropChase : MonoBehaviour
 
     void DropDown()
     {
-        rb2d.linearVelocity = new Vector2(0, -dropSpeed); // Move straight down
+        // Set only the vertical velocity for dropping down (no horizontal movement)
+        rb2d.linearVelocity = new Vector2(0, -dropSpeed); // Move straight down with set speed
+        
+        // Flip the enemy's sprite to face the ground (feet down)
+        transform.localScale = new Vector3(transform.localScale.x, -Mathf.Abs(transform.localScale.y), transform.localScale.z);
     }
 
     void ChasePlayer()
     {
         Vector2 direction = (player.position - transform.position).normalized;
-        rb2d.linearVelocity = new Vector2(direction.x * moveSpeed, direction.y * moveSpeed);
+
+        // Apply a force to move the enemy towards the player (no vertical movement)
+        rb2d.AddForce(direction * moveSpeed, ForceMode2D.Force);
+
+        // Flip the enemy's sprite to face the player (on the X-axis)
+        if (direction.x != 0)
+        {
+            transform.localScale = new Vector3(Mathf.Sign(direction.x) * Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+        }
     }
 }

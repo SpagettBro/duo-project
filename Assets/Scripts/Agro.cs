@@ -3,26 +3,20 @@ using UnityEngine;
 public class Agro : MonoBehaviour
 {
     AudioManager audioManager;
+    private bool hasChased = false;
+    private bool isChasing = false;
 
-    private bool hasChased = false; // Flag to track if the alien has started chasing
+    [SerializeField] Transform player;
+    [SerializeField] float agroRange = 5f;
+    [SerializeField] float moveSpeed = 3f;
 
-    private void Awake()
+    Rigidbody2D rb2d;
+
+    void Awake()
     {
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
-    [SerializeField]
-    Transform player;
-
-    [SerializeField]
-    float agroRange;
-
-    [SerializeField]
-    float moveSpeed;
-
-    Rigidbody2D rb2d;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
@@ -32,7 +26,6 @@ public class Agro : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (player == null)
@@ -41,40 +34,43 @@ public class Agro : MonoBehaviour
             return;
         }
 
-        // Calculate distance to player
-        float distToPLayer = Vector2.Distance(transform.position, player.position);
+        float distToPlayer = Vector2.Distance(transform.position, player.position);
 
-        if (distToPLayer < agroRange)
+        // Trigger aggro once
+        if (!isChasing && distToPlayer < agroRange)
         {
-            // Code to chase player
-            if (!hasChased) // If the alien hasn't started chasing yet
+            isChasing = true;
+
+            if (!hasChased)
             {
-                if (audioManager.wakeup != null) // Check if the clip is assigned before playing
+                if (audioManager != null && audioManager.wakeup != null)
                 {
-                    audioManager.PlaySFX(audioManager.wakeup); // Play the sound once
-                }
-                else
-                {
-                    Debug.LogError("alien_wakeup is still not assigned!");
+                    audioManager.PlaySFX(audioManager.wakeup);
                 }
 
-                hasChased = true; // Set the flag to true to avoid playing the sound again
+                hasChased = true;
             }
+        }
+
+        // Chase if aggro'd
+        if (isChasing)
+        {
             ChasePlayer();
         }
-        else
+    }
+
+    void ChasePlayer()
+    {
+        Vector2 direction = (player.position - transform.position).normalized;
+
+        // Move
+        Vector2 move = direction * moveSpeed;
+        rb2d.MovePosition(rb2d.position + move * Time.fixedDeltaTime);
+
+        // Flip sprite
+        if (direction.x != 0)
         {
-            // Alien is out of range, but we don't reset hasChased here anymore
-            // No need to reset the flag, as we want the sound to play only once when the chase starts.
+            transform.localScale = new Vector3(Mathf.Sign(direction.x), 1f, 1f);
         }
     }
-    void ChasePlayer()
-{
-    // Calculate the direction from the alien to the player
-    Vector2 direction = (player.position - transform.position).normalized;
-
-    // Update the Rigidbody2D's linearVelocity to move the alien towards the player
-    rb2d.linearVelocity = new Vector2(direction.x * moveSpeed, direction.y * moveSpeed);
-}
-
 }
