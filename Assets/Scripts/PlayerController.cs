@@ -1,6 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.Universal;
 
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -14,6 +15,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform groundcheck;
     [SerializeField] private Vector2 groundCheckSize = new Vector2(0.5f, 0.5f);
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private Light2D InteractableLight;
 
     public bool IsMoving { get
         {
