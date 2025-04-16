@@ -1,6 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.Universal;
 
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -10,6 +11,11 @@ public class PlayerController : MonoBehaviour
     Vector2 moveInput;
 
     private bool _isMoving = false;
+    [SerializeField] private float jumpPower = 4f; 
+    [SerializeField] private Transform groundcheck;
+    [SerializeField] private Vector2 groundCheckSize = new Vector2(0.5f, 0.5f);
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private Light2D InteractableLight;
 
     public bool IsMoving { get
         {
@@ -83,6 +89,30 @@ public class PlayerController : MonoBehaviour
             //face the left
             IsFacingRight = false;
         }
+    }
+
+    public void Jump(InputAction.CallbackContext context){
+        if(isGrounded()){
+            if(context.performed){
+                rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpPower);
+            } /* else if(context.canceled){
+                rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * 0.5);
+            } */ 
+        }
+        
+    }
+
+    private bool isGrounded(){
+        if(Physics2D.OverlapBox(groundcheck.position, groundCheckSize, 0, groundLayer)){
+            return true;
+        }
+        return false;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.white;
+        Gizmos.DrawCube(groundcheck.position, groundCheckSize);
     }
 
 }
