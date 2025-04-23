@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -78,7 +79,9 @@ public class PlayerController : MonoBehaviour
         }
     }
     public void Jump(InputAction.CallbackContext context){
+        Debug.Log("Check Jump");
         if(isGrounded()){
+            Debug.Log("Jump");
             if(context.performed){
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpPower);
             } /* else if(context.canceled){
@@ -89,10 +92,8 @@ public class PlayerController : MonoBehaviour
     }
 
     private bool isGrounded(){
-        if(Physics2D.OverlapBox(groundcheck.position, groundCheckSize, 0, groundLayer)){
-            return true;
-        }
-        return false;
+        return Physics2D.OverlapBox(groundcheck.position, groundCheckSize, 0, groundLayer);
+ 
     }
 
     private void OnDrawGizmosSelected()
