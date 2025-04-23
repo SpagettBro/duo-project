@@ -113,12 +113,12 @@ TextureImporter:
       name: walking_anim_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 7
         y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 24
+        height: 52
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -135,12 +135,12 @@ TextureImporter:
       name: walking_anim_1
       rect:
         serializedVersion: 2
-        x: 64
+        x: 42
         y: 0
-        width: 64
-        height: 64
+        width: 26
+        height: 51
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -157,12 +157,12 @@ TextureImporter:
       name: walking_anim_2
       rect:
         serializedVersion: 2
-        x: 128
+        x: 118
         y: 0
-        width: 64
-        height: 64
+        width: 24
+        height: 52
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -181,10 +181,10 @@ TextureImporter:
         serializedVersion: 2
         x: 192
         y: 0
-        width: 64
-        height: 64
+        width: 25
+        height: 52
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -201,13 +201,13 @@ TextureImporter:
       name: walking_anim_4
       rect:
         serializedVersion: 2
-        x: 256
+        x: 0
         y: 0
-        width: 64
-        height: 64
+        width: 222
+        height: 57
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 5}
       customData: 
       outline: []
       physicsShape: []
@@ -223,12 +223,12 @@ TextureImporter:
       name: walking_anim_5
       rect:
         serializedVersion: 2
-        x: 320
+        x: 221
         y: 0
-        width: 64
-        height: 64
+        width: 1
+        height: 57
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -237,6 +237,50 @@ TextureImporter:
       bones: []
       spriteID: 9e11d2e26563a1b438ef6e19fa78f6bb
       internalID: -1649738117
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walking_anim_6
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 0
+        width: 24
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f962ff63201aff546bae3a7b959d9f26
+      internalID: 817458614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: walking_anim_7
+      rect:
+        serializedVersion: 2
+        x: 155
+        y: 0
+        width: 24
+        height: 51
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 326b1e412ceea1e4bbea9996dfe93812
+      internalID: -1898469553
       vertices: []
       indices: 
       edges: []
@@ -261,6 +305,8 @@ TextureImporter:
       walking_anim_3: -1633285370
       walking_anim_4: -503289037
       walking_anim_5: -1649738117
+      walking_anim_6: 817458614
+      walking_anim_7: -1898469553
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
