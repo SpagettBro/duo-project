@@ -3,13 +3,14 @@ using UnityEngine;
 public class AgroDropChase : MonoBehaviour
 {
     AudioManager audioManager;
-    private bool hasChased = false; // Flag to track if the alien has started chasing
+    private bool hasChased = false;
+    private bool hasDropped = false;
 
     [SerializeField] Transform player;
     [SerializeField] float agroRange = 9f;
     [SerializeField] float moveSpeed = 4f;
     [SerializeField] float dropSpeed = 5f;
-    [SerializeField] float yThreshold = 0.1f; // Distance before stopping drop
+    [SerializeField] float yThreshold = 0.1f;
 
     Rigidbody2D rb2d;
 
@@ -25,7 +26,8 @@ public class AgroDropChase : MonoBehaviour
         {
             Debug.LogError("Rigidbody2D is missing on " + gameObject.name);
         }
-        rb2d.gravityScale = 0; // Ensure gravity is off
+
+        rb2d.gravityScale = 0; // No gravity for precise control
     }
 
     void Update()
@@ -43,49 +45,60 @@ public class AgroDropChase : MonoBehaviour
         {
             if (!hasChased)
             {
-                if (audioManager.wakeup != null)
-                {
+                if (audioManager != null && audioManager.wakeup != null)
                     audioManager.PlaySFX(audioManager.wakeup);
-                }
-                else
-                {
-                    Debug.LogError("alien_wakeup is not assigned!");
-                }
+
                 hasChased = true;
             }
 
-            // If the enemy is too high, drop down first
-            if (yDifference > yThreshold)
+            if (!hasDropped)
             {
-                DropDown();
+                if (Mathf.Abs(yDifference) > yThreshold)
+                {
+                    DropDown();
+                }
+                else
+                {
+                    LockYPosition();
+                    hasDropped = true;
+                }
             }
             else
             {
-                ChasePlayer();
+                ChasePlayerOnX();
             }
         }
     }
 
     void DropDown()
     {
-        // Set only the vertical velocity for dropping down (no horizontal movement)
-        rb2d.linearVelocity = new Vector2(0, -dropSpeed); // Move straight down with set speed
-        
-        // Flip the enemy's sprite to face the ground (feet down)
+        // Drop straight down
+        rb2d.linearVelocity = new Vector2(0, -dropSpeed);
+
+        // Flip sprite to face feet down
         transform.localScale = new Vector3(transform.localScale.x, -Mathf.Abs(transform.localScale.y), transform.localScale.z);
     }
 
-    void ChasePlayer()
+    void LockYPosition()
     {
-        Vector2 direction = (player.position - transform.position).normalized;
+        rb2d.linearVelocity = Vector2.zero;
+        transform.position = new Vector3(transform.position.x, player.position.y, transform.position.z);
 
-        // Apply a force to move the enemy towards the player (no vertical movement)
-        rb2d.AddForce(direction * moveSpeed, ForceMode2D.Force);
+        // Flip back to upright
+        transform.localScale = new Vector3(transform.localScale.x, Mathf.Abs(transform.localScale.y), transform.localScale.z);
+    }
 
-        // Flip the enemy's sprite to face the player (on the X-axis)
-        if (direction.x != 0)
+    void ChasePlayerOnX()
+    {
+        float directionX = player.position.x - transform.position.x;
+        float moveX = Mathf.Sign(directionX) * moveSpeed;
+
+        rb2d.linearVelocity = new Vector2(moveX, 0);
+
+        // Flip sprite to face player
+        if (directionX != 0)
         {
-            transform.localScale = new Vector3(Mathf.Sign(direction.x) * Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+            transform.localScale = new Vector3(Mathf.Sign(directionX) * Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
         }
     }
 }

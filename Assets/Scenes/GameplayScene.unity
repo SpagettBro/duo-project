@@ -7059,10 +7059,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Medkit
       objectReference: {fileID: 0}
-    - target: {fileID: 6601924377985330749, guid: 46972319eed581846b0a4d8f5d85cf7f, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: a62f7ac36318aaf4f8bf2a3d7dada7e3, type: 2}
     - target: {fileID: 8321563819675055798, guid: 46972319eed581846b0a4d8f5d85cf7f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 28.08
@@ -7102,14 +7098,6 @@ PrefabInstance:
     - target: {fileID: 8321563819675055798, guid: 46972319eed581846b0a4d8f5d85cf7f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8714511270702832036, guid: 46972319eed581846b0a4d8f5d85cf7f, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 1773944490, guid: cbb23edc2bcadec488d61545eef42cb4, type: 3}
-    - target: {fileID: 8714511270702832036, guid: 46972319eed581846b0a4d8f5d85cf7f, type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
